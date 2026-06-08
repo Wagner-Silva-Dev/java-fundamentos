@@ -18,14 +18,7 @@ public class SemaforoTest {
 
             Semaforo semaforo = Semaforo.valueOf(cor.toUpperCase());
 
-            switch (semaforo) {
-                case  VERDE -> System.out.println("Pode seguir");
-
-                case AMARELO  -> System.out.println("Reduza a velocidade");
-
-                case VERMELHO -> System.out.println("Pare e espere abrir");
-
-            }
+            System.out.println(semaforo.getMensagem());
         } catch (IllegalArgumentException e) {
             System.out.println("Cor invalida");
         }
