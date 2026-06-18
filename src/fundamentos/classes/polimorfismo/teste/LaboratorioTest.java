@@ -1,4 +1,4 @@
-package fundamentos.classes.polimorfismo.Teste;
+package fundamentos.classes.polimorfismo.teste;
 
 import fundamentos.classes.polimorfismo.laboratorio.*;
 
