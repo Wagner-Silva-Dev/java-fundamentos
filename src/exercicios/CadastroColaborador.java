@@ -1,62 +1,33 @@
 package exercicios;
 
+import exercicios.colaborador.*;
+
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class CadastroColaborador {
 
-    static final double SALARIO_BASE = 2000.0;
-
     public static void main(String[] args) {
-        try (Scanner entrada = new Scanner(System.in).useLocale(Locale.US)) {
-            ArrayList<String> colaboradores = new ArrayList<>();
-
-            boolean rodando = true;
-
+        try (Scanner scanner = new Scanner(System.in).useLocale(Locale.US)) {
+            List<Colaborador> listaColaboradores = new ArrayList<>();
             do {
                 exibirmenu();
-                int opcao = entrada.nextInt();
-                entrada.nextLine();
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
 
                 switch (opcao) {
-                    case 1:
-                        boolean continuar;
-
-                        do {
-                            // O método faz o trabalho e nos diz se deve continuar
-                            continuar = executarCadastro(entrada, colaboradores, SALARIO_BASE);
-                        } while (continuar);
-                        break;
-
-                    case 2:
-
-                        do {
-                            continuar = executarCadastroComissionado(entrada, colaboradores, SALARIO_BASE);
-                        } while (continuar);
-                        break;
-
-                    case 3:
-
-                        do {
-                            continuar = executarCadastroProducao(entrada, colaboradores, SALARIO_BASE);
-                        } while (continuar);
-                        break;
-
-                    case 4:
-                        exibirFolhaPagamento (colaboradores);
-                        break;
-
-                    case 0:
-                        rodando = false;
-                        System.out.println("Encerrando sistema.");
-                        break;
-
-                    default:
-                        System.out.println("Opção selecionada é inválida, tente novamente.");
-
+                    case 1 -> cadastraColaboradorComum(scanner, listaColaboradores);
+                    case 2 -> cadastraColaboradorComissionado(scanner, listaColaboradores);
+                    case 3 -> cadastraColaboradorProducao(scanner, listaColaboradores);
+                    case 4 -> exibirFolhaPagamento(listaColaboradores);
+                    case 0 -> {
+                        System.out.println("Finalizando sistema...");
+                        return;
+                    }
                 }
-            } while (rodando);
+            } while (true);
         }
     }
 
@@ -69,107 +40,60 @@ public class CadastroColaborador {
         System.out.println("Opção 0: Fechar sistema.");
     }
 
-    public static boolean executarCadastro(Scanner entrada, ArrayList<String> lista, double valorBase) {
+    public static void cadastraColaboradorComum(Scanner scanner, List<Colaborador> listaColaboradores) {
         System.out.println("\n--- CADASTRANDO COLABORADOR COMUM ---");
-        System.out.println("Insira o nome (ou 'parar'): ");
-        String nome = entrada.nextLine();
+        System.out.println("Informe o nome do colaborador: ");
+        String nomeColaborador = scanner.nextLine();
 
-        // Se digitar parar, retorna 'false' para avisar ao loop principal que deve
-        // encerrar
-        if (nome.equalsIgnoreCase("parar")) {
-            return false;
-        }
+        System.out.println("Insira o id do colaborador: ");
+        int idColaborador = scanner.nextInt();
 
-        System.out.println("Insira o número de registro:");
-        int registro = entrada.nextInt();
-        entrada.nextLine(); // Limpa o buffer do Enter
-
-        // Guarda tudo formatado na lista
-        String dadosParaSalvar = formatarColaborador(nome, registro, valorBase);
-        lista.add(dadosParaSalvar);
-
-        System.out.println("Colaborador cadastrado com sucesso!");
-        return true; // Retorna 'true' para indicar que o cadastro aconteceu e pode continuar
+        listaColaboradores.add(new ColaboradorComum(idColaborador, nomeColaborador));
     }
 
-    public static boolean executarCadastroComissionado(Scanner entrada, ArrayList<String> lista, double valorBase) {
-        System.out.println("\n --- CADASTRANDO COLABORADOR COMISSIONADO ---");
-        System.out.println("Insira o nome (ou 'parar'): ");
-        String nome = entrada.nextLine();
+    public static void cadastraColaboradorComissionado(Scanner scanner, List<Colaborador> listaColaboradores) {
+        System.out.println("\n--- CADASTRANDO COLABORADOR COMISSIONADO  ---");
+        System.out.println("Informe o nome do colaborador: ");
+        String nomeColaborador = scanner.nextLine();
 
-        if (nome.equalsIgnoreCase("parar")) {
-            return false;
-        }
+        System.out.println("Insira o id do colaborador: ");
+        int idColaborador = scanner.nextInt();
 
-        System.out.println("Insira o número de registro: ");
-        int registro = entrada.nextInt();
-        entrada.nextLine();
+        System.out.println("Quantas vendas foram realizadas pelo colaborador?");
+        int qtdeVendas = scanner.nextInt();
 
-        System.out.println("Insira o valor total das vendas realizadas: ");
-        double vendas = entrada.nextDouble();
-        entrada.nextLine();
+        System.out.println("Qual a % que o colaborador vai receber das vendas?");
+        double porcentagemComissao = scanner.nextDouble();
 
-        System.out.println("Informe comissão percentual: ");
-        double porcentagemComissao = entrada.nextDouble();
-        entrada.nextLine();
-
-        double salarioFinal = valorBase + (vendas * porcentagemComissao / 100);
-
-        String dadosParaSalvar = formatarColaborador(nome, registro, salarioFinal);
-        lista.add(dadosParaSalvar);
-
-        System.out.println("Colaborador cadastrado com sucesso!");
-        return true;
-
+        listaColaboradores.add(new ColaboradorComissionado(idColaborador, nomeColaborador, qtdeVendas, porcentagemComissao));
     }
 
-    public static boolean executarCadastroProducao(Scanner entrada, ArrayList<String> lista, double valorBase) {
-        System.out.println("\n --- CADASTRANDO COLABORADOR DE PRODUÇÃO ---");
-        System.out.println("Insira o nome (ou 'parar'): ");
-        String nome = entrada.nextLine();
+    public static void cadastraColaboradorProducao(Scanner scanner, List<Colaborador> listaColaboradores) {
+        System.out.println("\n---  CADASTRANDO COLABORADOR DE PRODUÇÃO  ---");
+        System.out.println("Informe o nome do colaborador: ");
+        String nomeColaborador = scanner.nextLine();
 
-        if (nome.equalsIgnoreCase("parar")) {
-            return false;
-        }
+        System.out.println("Insira o id do colaborador: ");
+        int idColaborador = scanner.nextInt();
 
-        System.out.println("Insira o número de registro: ");
-        int registro = entrada.nextInt();
-        entrada.nextLine();
+        System.out.println("Quantas peças foram produzidas pelo colaborador?");
+        int pecasProduzidas = scanner.nextInt();
 
-        System.out.println("Insira o número de peças produzidas: ");
-        double pecasProduzidas = entrada.nextDouble();
-        entrada.nextLine();
+        System.out.println("Qual o valor que o colaborador vai receber das peças produzidas?");
+        double ganhoPorPeca = scanner.nextDouble();
 
-        System.out.println("Informe o valor das peças produzidas: ");
-        double valorPecas = entrada.nextDouble();
-        entrada.nextLine();
-
-        double salarioFinal = valorBase + (pecasProduzidas * valorPecas);
-
-        String dadosParaSalvar = formatarColaborador(nome, registro, salarioFinal);
-        lista.add(dadosParaSalvar);
-
-        System.out.println("Colaborador cadastrado com sucesso!");
-        return true;
+        listaColaboradores.add(new ColaboradorProducao(idColaborador, nomeColaborador, pecasProduzidas, ganhoPorPeca));
     }
 
-    public static void exibirFolhaPagamento(ArrayList<String> lista) {
+    public static void exibirFolhaPagamento(List<Colaborador> listaColaboradores) {
         System.out.println("\n========== FOLHA DE PAGAMENTO ==========");
-
-        // Verificamos se a lista está vazia antes de tentar imprimir
-        if (lista.isEmpty()) {
+        if (listaColaboradores.isEmpty()) {
             System.out.println("Nenhum colaborador cadastrado até o momento.");
         } else {
-            // Usamos o "Enhanced For-Loop" (for-each) para percorrer a lista
-            for (String colaborador : lista) {
+            for (Colaborador colaborador : listaColaboradores) {
                 System.out.println(colaborador);
             }
         }
-
         System.out.println("========================================\n");
-    }
-
-    public static String formatarColaborador(String nome, int registro, double salarioFinal) {
-        return String.format("Nome: %s | Reg: %d | Salário: R$ %.2f", nome, registro, salarioFinal);
     }
 }
