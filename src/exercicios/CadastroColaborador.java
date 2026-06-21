@@ -42,47 +42,60 @@ public class CadastroColaborador {
 
     public static void cadastraColaboradorComum(Scanner scanner, List<Colaborador> listaColaboradores) {
         System.out.println("\n--- CADASTRANDO COLABORADOR COMUM ---");
-        System.out.println("Informe o nome do colaborador: ");
-        String nomeColaborador = scanner.nextLine();
+        do {
+            System.out.println("Informe o nome do colaborador: ");
+            String nomeColaborador = scanner.nextLine();
 
-        System.out.println("Insira o id do colaborador: ");
-        int idColaborador = scanner.nextInt();
+            System.out.println("Insira o id do colaborador: ");
+            int idColaborador = scanner.nextInt();
 
-        listaColaboradores.add(new ColaboradorComum(idColaborador, nomeColaborador));
+            listaColaboradores.add(new ColaboradorComum(idColaborador, nomeColaborador));
+
+            scanner.nextLine();
+        } while (perguntaSeContinuar(scanner));
     }
 
     public static void cadastraColaboradorComissionado(Scanner scanner, List<Colaborador> listaColaboradores) {
         System.out.println("\n--- CADASTRANDO COLABORADOR COMISSIONADO  ---");
-        System.out.println("Informe o nome do colaborador: ");
-        String nomeColaborador = scanner.nextLine();
+        do {
+            System.out.println("Informe o nome do colaborador: ");
+            String nomeColaborador = scanner.nextLine();
 
-        System.out.println("Insira o id do colaborador: ");
-        int idColaborador = scanner.nextInt();
+            System.out.println("Insira o id do colaborador: ");
+            int idColaborador = scanner.nextInt();
 
-        System.out.println("Quantas vendas foram realizadas pelo colaborador?");
-        int qtdeVendas = scanner.nextInt();
+            System.out.println("Quantas vendas foram realizadas pelo colaborador?");
+            int qtdeVendas = scanner.nextInt();
 
-        System.out.println("Qual a % que o colaborador vai receber das vendas?");
-        double porcentagemComissao = scanner.nextDouble();
+            System.out.println("Qual a % que o colaborador vai receber das vendas?");
+            double porcentagemComissao = scanner.nextDouble();
 
-        listaColaboradores.add(new ColaboradorComissionado(idColaborador, nomeColaborador, qtdeVendas, porcentagemComissao));
+            listaColaboradores.add(new ColaboradorComissionado(idColaborador, nomeColaborador, qtdeVendas, porcentagemComissao));
+
+            scanner.nextLine();
+        } while (perguntaSeContinuar(scanner));
     }
 
     public static void cadastraColaboradorProducao(Scanner scanner, List<Colaborador> listaColaboradores) {
         System.out.println("\n---  CADASTRANDO COLABORADOR DE PRODUÇÃO  ---");
-        System.out.println("Informe o nome do colaborador: ");
-        String nomeColaborador = scanner.nextLine();
+        do {
+            System.out.println("Informe o nome do colaborador: ");
+            String nomeColaborador = scanner.nextLine();
 
-        System.out.println("Insira o id do colaborador: ");
-        int idColaborador = scanner.nextInt();
+            System.out.println("Insira o id do colaborador: ");
+            int idColaborador = scanner.nextInt();
 
-        System.out.println("Quantas peças foram produzidas pelo colaborador?");
-        int pecasProduzidas = scanner.nextInt();
+            System.out.println("Quantas peças foram produzidas pelo colaborador?");
+            int pecasProduzidas = scanner.nextInt();
 
-        System.out.println("Qual o valor que o colaborador vai receber das peças produzidas?");
-        double ganhoPorPeca = scanner.nextDouble();
+            System.out.println("Qual o valor que o colaborador vai receber das peças produzidas?");
+            double ganhoPorPeca = scanner.nextDouble();
 
-        listaColaboradores.add(new ColaboradorProducao(idColaborador, nomeColaborador, pecasProduzidas, ganhoPorPeca));
+            listaColaboradores.add(new ColaboradorProducao(idColaborador, nomeColaborador, pecasProduzidas, ganhoPorPeca));
+
+            scanner.nextLine();
+
+        } while (perguntaSeContinuar(scanner));
     }
 
     public static void exibirFolhaPagamento(List<Colaborador> listaColaboradores) {
@@ -94,6 +107,22 @@ public class CadastroColaborador {
                 System.out.println(colaborador);
             }
         }
-        System.out.println("========================================\n");
+
     }
+
+    private static boolean perguntaSeContinuar(Scanner scanner) {
+        String resposta;
+        do {
+            System.out.println("Deseja continuar? (S/N)");
+            resposta = scanner.nextLine();
+
+            if (!resposta.equalsIgnoreCase("S") && !resposta.equalsIgnoreCase("N")) {
+                System.out.println("Resposta inválida! Digite S ou N para continuar.");
+            }
+
+        } while (!resposta.equalsIgnoreCase("S") && !resposta.equalsIgnoreCase("N"));
+
+        return resposta.equalsIgnoreCase("S");
+    }
+
 }
