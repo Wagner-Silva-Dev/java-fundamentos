@@ -102,9 +102,11 @@ public class CadastroColaborador {
         System.out.println("\n========== FOLHA DE PAGAMENTO ==========");
         if (listaColaboradores.isEmpty()) {
             System.out.println("Nenhum colaborador cadastrado até o momento.");
+            System.out.println("========================================\n");
         } else {
             for (Colaborador colaborador : listaColaboradores) {
                 System.out.println(colaborador);
+                System.out.println("========================================\n");
             }
         }
 
