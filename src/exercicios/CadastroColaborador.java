@@ -2,10 +2,7 @@ package exercicios;
 
 import exercicios.colaborador.*;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 public class CadastroColaborador {
 
@@ -43,58 +40,81 @@ public class CadastroColaborador {
     public static void cadastraColaboradorComum(Scanner scanner, List<Colaborador> listaColaboradores) {
         System.out.println("\n--- CADASTRANDO COLABORADOR COMUM ---");
         do {
-            System.out.println("Informe o nome do colaborador: ");
-            String nomeColaborador = scanner.nextLine();
+            boolean corrigirCadastro = false;
+            do {
+                System.out.println("Informe o nome do colaborador: ");
+                String nomeColaborador = scanner.nextLine();
 
-            System.out.println("Insira o id do colaborador: ");
-            int idColaborador = scanner.nextInt();
+                System.out.println("Insira o id do colaborador: ");
+                int idColaborador = scanner.nextInt();
+                scanner.nextLine();
 
-            listaColaboradores.add(new ColaboradorComum(idColaborador, nomeColaborador));
+                try {
+                    listaColaboradores.add(new ColaboradorComum(idColaborador, nomeColaborador));
+                } catch (DadosInvalidosException e) {
+                    System.out.println("Erro ao cadastrar colaborador: " + e.getMessage());
+                    corrigirCadastro = perguntaSeCorrigirCadastroColaborador(scanner);
+                }
 
-            scanner.nextLine();
+            } while (corrigirCadastro);
         } while (perguntaSeContinuar(scanner));
     }
 
     public static void cadastraColaboradorComissionado(Scanner scanner, List<Colaborador> listaColaboradores) {
         System.out.println("\n--- CADASTRANDO COLABORADOR COMISSIONADO  ---");
         do {
-            System.out.println("Informe o nome do colaborador: ");
-            String nomeColaborador = scanner.nextLine();
+            boolean corrigirCadastro = false;
+            do {
+                System.out.println("Informe o nome do colaborador: ");
+                String nomeColaborador = scanner.nextLine();
 
-            System.out.println("Insira o id do colaborador: ");
-            int idColaborador = scanner.nextInt();
+                System.out.println("Insira o id do colaborador: ");
+                int idColaborador = scanner.nextInt();
 
-            System.out.println("Quantas vendas foram realizadas pelo colaborador?");
-            int qtdeVendas = scanner.nextInt();
+                System.out.println("Quantas vendas foram realizadas pelo colaborador?");
+                int qtdeVendas = scanner.nextInt();
 
-            System.out.println("Qual a % que o colaborador vai receber das vendas?");
-            double porcentagemComissao = scanner.nextDouble();
+                System.out.println("Qual a % que o colaborador vai receber das vendas?");
+                double porcentagemComissao = scanner.nextDouble();
+                scanner.nextLine();
 
-            listaColaboradores.add(new ColaboradorComissionado(idColaborador, nomeColaborador, qtdeVendas, porcentagemComissao));
+                try {
+                    listaColaboradores.add(new ColaboradorComissionado(idColaborador, nomeColaborador, qtdeVendas, porcentagemComissao));
+                } catch (DadosInvalidosException e) {
+                    System.out.println("Erro ao cadastrar colaborador: " + e.getMessage());
+                    corrigirCadastro = perguntaSeCorrigirCadastroColaborador(scanner);
+                }
 
-            scanner.nextLine();
+            } while (corrigirCadastro);
         } while (perguntaSeContinuar(scanner));
     }
 
     public static void cadastraColaboradorProducao(Scanner scanner, List<Colaborador> listaColaboradores) {
         System.out.println("\n---  CADASTRANDO COLABORADOR DE PRODUÇÃO  ---");
         do {
-            System.out.println("Informe o nome do colaborador: ");
-            String nomeColaborador = scanner.nextLine();
+            boolean corrigirCadastro = false;
+            do {
+                System.out.println("Informe o nome do colaborador: ");
+                String nomeColaborador = scanner.nextLine();
 
-            System.out.println("Insira o id do colaborador: ");
-            int idColaborador = scanner.nextInt();
+                System.out.println("Insira o id do colaborador: ");
+                int idColaborador = scanner.nextInt();
 
-            System.out.println("Quantas peças foram produzidas pelo colaborador?");
-            int pecasProduzidas = scanner.nextInt();
+                System.out.println("Quantas peças foram produzidas pelo colaborador?");
+                int pecasProduzidas = scanner.nextInt();
 
-            System.out.println("Qual o valor que o colaborador vai receber das peças produzidas?");
-            double ganhoPorPeca = scanner.nextDouble();
+                System.out.println("Qual o valor que o colaborador vai receber das peças produzidas?");
+                double ganhoPorPeca = scanner.nextDouble();
+                scanner.nextLine();
 
-            listaColaboradores.add(new ColaboradorProducao(idColaborador, nomeColaborador, pecasProduzidas, ganhoPorPeca));
+                try {
+                    listaColaboradores.add(new ColaboradorProducao(idColaborador, nomeColaborador, pecasProduzidas, ganhoPorPeca));
+                } catch (DadosInvalidosException e) {
+                    System.out.println("Erro ao cadastrar colaborador: " + e.getMessage());
+                    corrigirCadastro = perguntaSeCorrigirCadastroColaborador(scanner);
+                }
 
-            scanner.nextLine();
-
+            } while (corrigirCadastro);
         } while (perguntaSeContinuar(scanner));
     }
 
@@ -109,13 +129,12 @@ public class CadastroColaborador {
                 System.out.println("========================================\n");
             }
         }
-
     }
 
     private static boolean perguntaSeContinuar(Scanner scanner) {
         String resposta;
         do {
-            System.out.println("Deseja continuar? (S/N)");
+            System.out.println("Deseja cadastrar um novo colaborador? (S/N)");
             resposta = scanner.nextLine();
 
             if (!resposta.equalsIgnoreCase("S") && !resposta.equalsIgnoreCase("N")) {
@@ -127,4 +146,22 @@ public class CadastroColaborador {
         return resposta.equalsIgnoreCase("S");
     }
 
+    private static boolean perguntaSeCorrigirCadastroColaborador(Scanner scanner) {
+        String resposta;
+        do {
+            System.out.println("Deseja corrigir o cadastro do colaborador? (S/N)");
+            resposta = scanner.nextLine();
+
+            if (!resposta.equalsIgnoreCase("S") && !resposta.equalsIgnoreCase("N")) {
+                System.out.println("Resposta inválida! Digite S ou N para continuar.");
+            }
+
+            if (resposta.equalsIgnoreCase("N")) {
+                System.out.println("Colaborador com erro não cadastrado!");
+            }
+
+        } while (!resposta.equalsIgnoreCase("S") && !resposta.equalsIgnoreCase("N"));
+
+        return resposta.equalsIgnoreCase("S");
+    }
 }
