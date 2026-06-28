@@ -6,6 +6,14 @@ public class ColaboradorProducao extends Colaborador {
 
     public ColaboradorProducao(int id, String nome, int pecasProduzidas, double ganhoPorPeca) {
         super(id, nome);
+        if  (pecasProduzidas < 0) {
+            throw new DadosInvalidosException("Peças não pode ser negativo");
+        }
+
+        if   (ganhoPorPeca < 0) {
+            throw new DadosInvalidosException("Valor ganho por peça não pode ser negativo");
+        }
+
         this.pecasProduzidas = pecasProduzidas;
         this.ganhoPorPeca = ganhoPorPeca;
     }

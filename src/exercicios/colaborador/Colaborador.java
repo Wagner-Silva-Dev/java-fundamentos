@@ -1,8 +1,8 @@
 package exercicios.colaborador;
 
 public abstract class Colaborador {
-    protected int id;
-    protected String nome;
+    protected final int id;
+    protected final String nome;
     protected static final double SALARIO_BASE = 2000.0;
 
     @Override
@@ -13,6 +13,14 @@ public abstract class Colaborador {
     }
 
     public Colaborador(int id, String nome) {
+        if (nome == null || nome.isBlank()) {
+            throw new DadosInvalidosException("Nome não pode ser vazio");
+        }
+
+        if (id < 0) {
+            throw new DadosInvalidosException("ID não pode ser negativo");
+        }
+
         this.id = id;
         this.nome = nome;
     }
@@ -23,16 +31,8 @@ public abstract class Colaborador {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public double getSalarioBase() {

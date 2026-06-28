@@ -6,6 +6,14 @@ public class ColaboradorComissionado extends Colaborador {
 
     public ColaboradorComissionado(int id, String nome, int vendas, double porcentagemComissao) {
         super(id, nome);
+        if  (vendas < 0) {
+            throw new DadosInvalidosException("Vendas não pode ser negativo");
+        }
+
+        if   (porcentagemComissao < 0) {
+            throw new DadosInvalidosException("Porcentagem da comissão não pode ser negativo");
+        }
+
         this.vendas = vendas;
         this.porcentagemComissao = porcentagemComissao;
     }
