@@ -41,8 +41,8 @@ public class DiarioDeAnotacoes {
                     break;
                 }
 
-                bw.newLine();
                 bw.write(anotacao);
+                bw.newLine();
             } while (true);
         } catch (IOException e) {
             throw new RuntimeException(e);
