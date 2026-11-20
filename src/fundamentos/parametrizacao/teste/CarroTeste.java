@@ -19,6 +19,12 @@ public class CarroTeste {
             }
         });
         System.out.println(carrosCinza);
+
+        List<Carro> carrosAPartirDe2000 = filtro(carros,  new CarroPredicate() {
+            @Override
+            public boolean teste(Carro carro) { return carro.getAno() >= 2000; }
+        });
+        System.out.println(carrosAPartirDe2000);
     }
 
     private static List<Carro> filtro(List<Carro> carros, CarroPredicate carroPredicate) {
