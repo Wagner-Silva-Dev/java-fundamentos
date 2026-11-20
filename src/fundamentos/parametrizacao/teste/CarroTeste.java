@@ -15,7 +15,7 @@ public class CarroTeste {
         List<Carro> carrosCinza = filtro(carros, new CarroPredicate() {
             @Override
             public boolean teste(Carro carro) {
-                return carro.getCor().equalsIgnoreCase("branca");
+                return carro.getCor().equalsIgnoreCase("cinza");
             }
         });
         System.out.println(carrosCinza);
